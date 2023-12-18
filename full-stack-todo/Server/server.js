@@ -24,7 +24,40 @@ const todoSchema = new mongoose.Schema({
 const Todo = mongoose.model("todo", todoSchema);
 
 app.get("/", async (req, res) => {
-  res.send("hello world!");
+  res.send("Hello developer! API is working.");
+});
+
+app.get("/task", async (req, res) => {
+  try {
+    const data = await Todo.find();
+    return res.status(201).json({
+      status: true,
+      message: "All task fetched successfully",
+      response: data,
+    });
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(400)
+      .json({ status: false, message: "Failed to fetched task" });
+  }
+});
+
+app.get("/task/:id", async (req, res) => {
+  try {
+    const taskID = req.params.id;
+    const specificTask = await Todo.findById(taskID);
+    return res.status(201).json({
+      status: true,
+      message: "All task fetched successfully",
+      response: specificTask,
+    });
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(400)
+      .json({ status: false, message: "Failed to fetched task by ID" });
+  }
 });
 
 app.post("/create-task", async (req, res) => {
@@ -33,18 +66,61 @@ app.post("/create-task", async (req, res) => {
 
     const data = new Todo({ task });
     await data.save();
-    return res
-      .status(201)
-      .json({
-        status: true,
-        message: "Task created successfully",
-        response: data,
-      });
+    return res.status(201).json({
+      status: true,
+      message: "Task created successfully",
+      response: data,
+    });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return res
       .status(400)
       .json({ status: false, message: "Failed to create task" });
+  }
+});
+
+app.put("/update-task/:id", async (req, res) => {
+  try {
+    const taskID = req.params.id;
+    const { task, completed } = req.body;
+    const existingTask = await Todo.findById(taskID);
+
+    if (task) {
+      existingTask.task = task;
+    }
+
+    if (completed !== undefined) {
+      existingTask.completed = completed;
+    }
+
+    await existingTask.save();
+    return res.status(200).json({
+      status: true,
+      message: "Task updated successfully",
+      response: existingTask,
+    });
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(400)
+      .json({ status: false, message: "Failed to Update task" });
+  }
+});
+
+app.delete("/delete-task/:id", async (req, res) => {
+  try {
+    const taskID = req.params.id;
+    const data = await Todo.findByIdAndDelete(taskID);
+    return res.status(201).json({
+      status: true,
+      message: "Task deleted successfully",
+      response: data,
+    });
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(400)
+      .json({ status: false, message: "Failed to delete task" });
   }
 });
 
