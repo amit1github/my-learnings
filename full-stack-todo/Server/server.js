@@ -15,9 +15,11 @@ const todoSchema = new mongoose.Schema({
   task: {
     type: String,
   },
-  completed: {
-    type: Boolean,
-    default: true,
+  status: {
+    type: String,
+  },
+  deadline: {
+    type: Date,
   },
 });
 
@@ -31,7 +33,7 @@ app.get("/task", async (req, res) => {
   try {
     const data = await Todo.find();
     return res.status(201).json({
-      status: true,
+      success: true,
       message: "All task fetched successfully",
       response: data,
     });
@@ -39,7 +41,7 @@ app.get("/task", async (req, res) => {
     console.error(error);
     return res
       .status(400)
-      .json({ status: false, message: "Failed to fetched task" });
+      .json({ success: false, message: "Failed to fetched task" });
   }
 });
 
@@ -48,7 +50,7 @@ app.get("/task/:id", async (req, res) => {
     const taskID = req.params.id;
     const specificTask = await Todo.findById(taskID);
     return res.status(201).json({
-      status: true,
+      success: true,
       message: "All task fetched successfully",
       response: specificTask,
     });
@@ -56,18 +58,18 @@ app.get("/task/:id", async (req, res) => {
     console.error(error);
     return res
       .status(400)
-      .json({ status: false, message: "Failed to fetched task by ID" });
+      .json({ success: false, message: "Failed to fetched task by ID" });
   }
 });
 
 app.post("/create-task", async (req, res) => {
   try {
-    const { task } = req.body;
+    const { task, status, deadline } = req.body;
 
-    const data = new Todo({ task });
+    const data = new Todo(req.body);
     await data.save();
     return res.status(201).json({
-      status: true,
+      success: true,
       message: "Task created successfully",
       response: data,
     });
@@ -75,35 +77,32 @@ app.post("/create-task", async (req, res) => {
     console.error(error);
     return res
       .status(400)
-      .json({ status: false, message: "Failed to create task" });
+      .json({ success: false, message: "Failed to create task" });
   }
 });
 
 app.put("/update-task/:id", async (req, res) => {
   try {
     const taskID = req.params.id;
-    const { task, completed } = req.body;
-    const existingTask = await Todo.findById(taskID);
+    const { task, status, deadline } = req.body;
+    const updatedTask = await Todo.findByIdAndUpdate(taskID, req.body, {
+      new: true,
+    });
 
-    if (task) {
-      existingTask.task = task;
-    }
-
-    if (completed !== undefined) {
-      existingTask.completed = completed;
-    }
-
-    await existingTask.save();
     return res.status(200).json({
-      status: true,
+      success: true,
       message: "Task updated successfully",
-      response: existingTask,
+      response: updatedTask,
     });
   } catch (error) {
     console.error(error);
     return res
       .status(400)
-      .json({ status: false, message: "Failed to Update task" });
+      .json({
+        success: false,
+        message: "Failed to Update task",
+        error: error.message,
+      });
   }
 });
 
@@ -112,7 +111,7 @@ app.delete("/delete-task/:id", async (req, res) => {
     const taskID = req.params.id;
     const data = await Todo.findByIdAndDelete(taskID);
     return res.status(201).json({
-      status: true,
+      success: true,
       message: "Task deleted successfully",
       response: data,
     });
@@ -120,7 +119,7 @@ app.delete("/delete-task/:id", async (req, res) => {
     console.error(error);
     return res
       .status(400)
-      .json({ status: false, message: "Failed to delete task" });
+      .json({ success: false, message: "Failed to delete task" });
   }
 });
 
