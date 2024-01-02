@@ -1,6 +1,6 @@
-// SwiperImageSlider.js
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/swiper-bundle.css";
+import { register } from "swiper/element/bundle";
+// register Swiper custom elements
+register();
 import { motion } from "framer-motion";
 
 const images = [
@@ -15,15 +15,24 @@ const SwiperImageSlider = () => {
     animate: { opacity: 1, scale: 1 },
   };
 
+  // spaceBetween={30}
+  //     slidesPerView={1}
+  //     navigation
+  //     pagination={{ clickable: true }}
+
   return (
-    <Swiper
-      spaceBetween={30}
-      slidesPerView={1}
+    <swiper-container
+      slides-per-view="1"
       navigation
-      pagination={{ clickable: true }}
+      speed="500"
+      loop="true"
+      autoplay={true}
+      spaceBetween={30}
+      autoplayDelay={5000}
+      css-mode="true"
     >
       {images.map((image, index) => (
-        <SwiperSlide key={index}>
+        <swiper-slide key={index}>
           <motion.img
             src={image}
             alt={`Slide ${index + 1}`}
@@ -32,9 +41,9 @@ const SwiperImageSlider = () => {
             initial="initial"
             animate="animate"
           />
-        </SwiperSlide>
+        </swiper-slide>
       ))}
-    </Swiper>
+    </swiper-container>
   );
 };
 
