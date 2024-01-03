@@ -56,7 +56,7 @@ function App() {
             ></div>
           ))}
         </div>
-
+              
         {/* Left Arrow */}
         <div
           className="absolute top-1/2 -translate-y-1/2 left-5 text-2xl rounded-full p-2 bg-black/20 text-white cursor-pointer"
