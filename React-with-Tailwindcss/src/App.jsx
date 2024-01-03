@@ -1,18 +1,23 @@
 // import SlickImageSlider from "./components/ImageSlider/SlickImageSlider";
 // import FramerSliderComponent from "./components/ImageSlider/FramerSliderComponent";
-import SwiperImageSlider from "./components/ImageSlider/SwiperImageSlider";
-import "./App.css";
+// import SwiperImageSlider from "./components/ImageSlider/SwiperImageSlider";
+// import "./App.css";
+import SwiperVideoSlider from "./components/VideoSlider/SwiperVideoSlider";
+// import ImageCarousel from "./components/ImageCarousel/slides";
 
 function App() {
   return (
-    <div className=" bg-gray-300 h-screen w-screen">
+    <div>
       {/* <SlickImageSlider />
       <br />
       <FramerSliderComponent />
       <br/> */}
-      <SwiperImageSlider/>
+      {/* <SwiperImageSlider/> */}
+      <SwiperVideoSlider/>
+      {/* <ImageCarousel/> */}
     </div>
   );
 }
 
 export default App;
+ 

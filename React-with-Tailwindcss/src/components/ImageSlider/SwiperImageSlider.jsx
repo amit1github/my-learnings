@@ -23,7 +23,6 @@ const SwiperImageSlider = () => {
   return (
     <swiper-container
       slides-per-view="1"
-      navigation
       speed="500"
       loop="true"
       autoplay={true}
@@ -33,7 +32,7 @@ const SwiperImageSlider = () => {
     >
       {images.map((image, index) => (
         <swiper-slide key={index}>
-          <motion.img
+          <motion.video
             src={image}
             alt={`Slide ${index + 1}`}
             className="w-full h-auto rounded-lg shadow-lg"
