@@ -1,18 +1,20 @@
-import "react";
 import "flowbite";
 
-const images = [
+const videos = [
   {
-    src: "https://cdn.thinglink.me/api/image/655498865562091522/1024/10/scaletowidth/0/0/1/1/false/true?wait=true",
-    alt: "Slide 1",
+    src: "/videoOne.mp4",
+    poster: "https://example.com/video2-poster.jpg",
+    alt: "slide 1",
   },
   {
-    src: "https://www.imagelighteditor.com/img/bg-after.jpg",
-    alt: "Slide 2",
+    src: "/videoTwo.mp4",
+    poster: "https://example.com/video1-poster.jpg",
+    alt: "slide 2",
   },
   {
-    src: "https://th.bing.com/th/id/OIP.eluLjywG2GQ4-gyh0aboHgHaEK?rs=1&pid=ImgDetMain",
-    alt: "Slide 3",
+    src: "/videoThree.mp4",
+    poster: "https://example.com/video3-poster.jpg",
+    alt: "slide 3",
   },
 ];
 
@@ -23,26 +25,46 @@ const buttons = [
 
 const FlowbiteCarousel = () => {
   return (
-    <div id="default-carousel" className="relative w-full" data-carousel="slide">
+    // <Carousel>
+    <div
+      id="default-carousel"
+      className="relative w-full"
+      data-carousel="slide"
+    >
       {/* Carousel wrapper */}
-      <div className="relative h-56 overflow-hidden rounded-lg md:h-96">
-        {images.map((image, index) => (
-          <div key={index} className="hidden duration-700 ease-in-out" data-carousel-item>
-            <img
+      <div className="relative h-80 overflow-hidden rounded-lg md:h-96">
+        {videos.map((video, index) => (
+          <div
+            key={index}
+            className="hidden top-0 left-0 duration-1000 ease-in-out transition-transform"
+            data-carousel-item
+          >
+            <video
+              loop
+              autoPlay
+              muted
+              className="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 hover:paused transition-all"
+            >
+              <source src={video.src} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+            {/* <image
               src={image.src}
               className="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
               alt={image.alt}
-            />
+            /> */}
           </div>
         ))}
       </div>
       {/* Slider indicators */}
       <div className="absolute z-30 flex -translate-x-1/2 bottom-5 left-1/2 space-x-3 rtl:space-x-reverse">
-        {images.map((_, index) => (
+        {videos.map((_, index) => (
           <button
             key={index}
             type="button"
-            className={`w-3 h-3 rounded-full ${index === 0 ? "bg-black" : "bg-white"}`}
+            className={`w-3 h-3 rounded-full ${
+              index === 0 ? "bg-black" : "bg-white"
+            }`}
             aria-current={index === 0}
             aria-label={`Slide ${index + 1}`}
             data-carousel-slide-to={index}
@@ -54,7 +76,9 @@ const FlowbiteCarousel = () => {
         <button
           key={index}
           type="button"
-          className={`absolute top-0 ${button.direction === "prev" ? "start-0" : "end-0"} z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none`}
+          className={`absolute top-0 ${
+            button.direction === "prev" ? "start-0" : "end-0"
+          } z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none`}
           data-carousel={button.direction}
         >
           <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
@@ -88,6 +112,7 @@ const FlowbiteCarousel = () => {
         </button>
       ))}
     </div>
+    // </Carousel>
   );
 };
 
