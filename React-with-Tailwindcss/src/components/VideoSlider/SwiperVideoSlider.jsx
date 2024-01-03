@@ -1,7 +1,6 @@
 // import { useEffect } from "react";
 import { register } from "swiper/element/bundle";
-import "swiper/element/css/autoplay"; // Import specific CSS for autoplay
-import { Autoplay, Pagination, Navigation } from "swiper/modules";
+import 'swiper/swiper-bundle.css';
 
 register();
 
@@ -26,16 +25,16 @@ const SwiperVideoSlider = () => {
       <swiper-container
         className="relative overflow-hidden rounded-lg"
         slidesPerView={1}
-        speed={500}
+        speed={700}
         loop
+        muted
         auto-height="true"
         pagination="true"
         pagination-clickable="true"
         centered-slides="true"
-        autoplay-delay="2500"
+        autoplay-delay="3000"
         autoplay-disable-on-interaction="true"
         autoplay-pause-on-hover="true"
-        space-between="30"
       >
         {videos.map((video, index) => (
           <swiper-slide
