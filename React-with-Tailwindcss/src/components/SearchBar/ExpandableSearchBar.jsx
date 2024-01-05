@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 function ExpandableSearchBar() {
   const [expanded, setExpanded] = useState(false);
